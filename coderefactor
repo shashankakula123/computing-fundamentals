@@ -1,0 +1,373 @@
+// Demonstrate the Creation Method replacement of Constructors
+02
+// Code Refactoring
+03
+ 
+04
+public class FootballPlayer {
+05
+     
+06
+    private double passerRating; // Specific to QBs
+07
+    private int rushingYards; // Specific to RBs & QBs
+08
+    private int receivingYards; // Specific to RBs & WRs
+09
+    private int totalTackles; // Specific to DEF
+10
+    private int interceptions; // Specific to DEF
+11
+    private int fieldGoals; // Specific to Kickers
+12
+    private double avgPunt; // Specific to Punters
+13
+    private double avgKickoffReturn; // Specific to Special Teams
+14
+    private double avgPuntReturn; // Specific to Special Teams
+15
+     
+16
+    /*
+17
+     
+18
+    FootballPlayer(double passerRating, int rushingYards){
+19
+         
+20
+        this.passerRating = passerRating;
+21
+        this.rushingYards = rushingYards;
+22
+         
+23
+    }
+24
+     
+25
+    FootballPlayer(int rushingYards){
+26
+         
+27
+        this.rushingYards = rushingYards;
+28
+         
+29
+    }
+30
+     
+31
+    Can't do this because the signature must be different
+32
+      
+33
+    FootballPlayer(int receivingYards){
+34
+         
+35
+        this.receivingYards = receivingYards;
+36
+         
+37
+    }
+38
+    */
+39
+     
+40
+    private FootballPlayer(double passerRating, int rushingYards,
+41
+            int receivingYards, int totalTackles, int interceptions,
+42
+            int fieldGoals, double avgPunt, double avgKickoffReturn,
+43
+            double avgPuntReturn){
+44
+         
+45
+        this.passerRating = passerRating;
+46
+        this.rushingYards = rushingYards;
+47
+        this.receivingYards = receivingYards;
+48
+        this.totalTackles = totalTackles;
+49
+        this.interceptions = interceptions;
+50
+        this.fieldGoals = fieldGoals;
+51
+        this.avgPunt = avgPunt;
+52
+        this.avgKickoffReturn = avgKickoffReturn;
+53
+        this.avgPuntReturn = avgPuntReturn;
+54
+         
+55
+    }
+56
+     
+57
+    public double getPasserRating() { return passerRating; }
+58
+     
+59
+    public static FootballPlayer createQB(double passerRating, int rushingYards){
+60
+         
+61
+        return new FootballPlayer(passerRating, rushingYards, 0, 0, 0, 0, 0.0,
+62
+                0.0, 0.0);
+63
+         
+64
+    }
+65
+     
+66
+    public static FootballPlayer createWR(int rushingYards, int receivingYards){
+67
+         
+68
+        return new FootballPlayer(0, rushingYards, receivingYards, 0, 0, 0, 0.0,
+69
+                0.0, 0.0);
+70
+         
+71
+    }
+72
+     
+73
+    public static FootballPlayer createKicker(int fieldGoals, double avgPunt){
+74
+         
+75
+        return new FootballPlayer(0, 0, 0, 0, 0, 38, 37.8,
+76
+                0.0, 0.0);
+77
+         
+78
+    }
+79
+     
+80
+    public static void main(String[] args){
+81
+         
+82
+        // The creation methods
+83
+        // Explain what type of player is being made
+84
+        // Are easier to understand (especially the attributes)
+85
+         
+86
+        FootballPlayer aaronRodgers = FootballPlayer.createQB(108.0, 259);
+87
+         
+88
+        FootballPlayer calvinJohnson = FootballPlayer.createWR(11, 1964);
+89
+         
+90
+        FootballPlayer sebastianJanikowski = FootballPlayer.createKicker(31, 33.0);
+91
+         
+92
+        System.out.println("Aaron Rodgers Passer Rating: " + aaronRodgers.getPasserRating());
+93
+         
+94
+    }
+
+ 
+
+}
+view sourceprint?
+
+// Demonstrate chain constructors
+
+// Code Refactoring
+
+ 
+
+public class FootballPlayer2 {
+
+     
+
+    private String playerName ="";
+
+    private String college = "";
+
+    private double fortyYardDash = 0.0;
+
+    private int repsBenchPress = 0;
+
+    private double sixtyYardDash = 0.0;
+
+     
+
+    public String getPlayerName() { return playerName; }
+
+    public String getCollege() { return college; }
+
+    public double get40YdDash() { return fortyYardDash; }
+
+    public int getRepsBenchPress() { return repsBenchPress; }
+
+    public double get60YdDash() { return sixtyYardDash; }
+
+     
+
+     
+
+     
+
+    // Too much duplication in constructors
+
+    /*
+
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, double sixtyYardDash){
+
+         
+
+        this.playerName = playerName;
+
+        this.college = college;
+
+        this.fortyYardDash = fortyYardDash;
+
+        this.sixtyYardDash = sixtyYardDash;
+
+         
+
+    }
+
+     
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, int repsBenchPress){
+
+         
+
+        this.playerName = playerName;
+
+        this.college = college;
+
+        this.fortyYardDash = fortyYardDash;
+
+        this.repsBenchPress = repsBenchPress;
+
+         
+
+    }
+
+     
+
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, int repsBenchPress, double sixtyYardDash){
+
+         
+
+        this.playerName = playerName;
+
+        this.college = college;
+
+        this.fortyYardDash = fortyYardDash;
+
+        this.repsBenchPress = repsBenchPress;
+
+        this.sixtyYardDash = sixtyYardDash;
+
+         
+
+    }
+
+    */
+
+     
+
+    // Create a general catch all constructor
+
+     
+
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, int repsBenchPress, double sixtyYardDash){
+
+         
+
+        this.playerName = playerName;
+
+        this.college = college;
+
+        this.fortyYardDash = fortyYardDash;
+
+        this.repsBenchPress = repsBenchPress;
+
+        this.sixtyYardDash = sixtyYardDash;
+
+         
+         
+    }
+
+     
+
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, int repsBenchPress){
+
+         
+         
+
+    }
+
+     
+
+    public FootballPlayer2(String playerName, String college,
+
+            double fortyYardDash, double sixtyYardDash){
+
+         
+
+        this(playerName, college, fortyYardDash, 0, sixtyYardDash);
+
+         
+
+    }
+
+     
+
+    public static void main(String[] args){
+
+         
+
+        FootballPlayer2 jamellFleming = new FootballPlayer2("Jamell Fleming", "Oklahoma", 4.53, 10.75);
+
+         
+
+        System.out.println(jamellFleming.getPlayerName());
+
+        System.out.println(jamellFleming.getCollege());
+
+        System.out.println(jamellFleming.get40YdDash());
+
+        System.out.println(jamellFleming.getRepsBenchPress());
+        System.out.println(jamellFleming.get60YdDash());
+
+         
+
+    }
+
+ 
+
+}
